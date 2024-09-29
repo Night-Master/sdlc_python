@@ -1,0 +1,30 @@
+
+.DS_Store
+node_modules
+dist
+unpackage
+*.zip
+# local env files
+.env.local
+.env.*.local
+.hbuilderx
+.vscode
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# umi
+.umi
+.umi-production
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.zip
+/.hbuilderx

@@ -1,0 +1,95 @@
+@import './var.css';
+@import 'element-plus/theme-chalk/dark/css-vars.css';
+
+// 解决抽屉弹出时，body宽度变化的问题
+.el-popup-parent--hidden {
+  width: 100% !important;
+}
+
+.page-info {
+  margin: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.margin-view-overlays {
+  background-color: #f8f8f8;
+  width: 50px !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.border-bottom-1 {
+  border: none !important;
+}
+.menu-c {
+  width: 280px;
+  // background-color: #fff;
+  color: #333;
+  // padding: 20px;
+  // display: flex;
+  // flex-direction: column;
+  // box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  // border-radius: 10px;
+  margin-right: 20px;
+  top: 100px;
+  height: calc(100% - 100px);
+}
+.Menu-c{
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #fff;
+}
+.el-menu-item {
+  margin: 10px 20px !important;
+  padding:5px 10px !important;
+  height: 42px !important;
+  line-height: 42px !important;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.el-menu-item::after {
+  content: '';
+  display: none !important;
+}
+.el-sub-menu {
+  padding: 0 10px !important;
+}
+.v-menu__title {
+  font-size: 18px !important;
+}
+._title_t {
+  font-size: 28px;
+  font-weight: 600;
+  color: #007bff;
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+#app {
+  .menu-c {
+    .v-menu .el-menu .el-menu .el-sub-menu__title,
+    .v-menu .el-menu .el-menu .el-menu-item:not(.is-active) {
+      background-color: #fff !important;
+      color: #333 !important;
+    }
+    .v-menu .el-menu .el-sub-menu.is-active.is-opened {
+      background-color: #fff !important;
+      color: #333 !important;
+    }
+    .v-menu .el-menu .is-active > .el-sub-menu__title {
+      background-color: #fff !important;
+      // color: #333!important;
+      color: #007bff !important;
+    }
+    .v-menu .el-menu .el-sub-menu.is-active {
+      background-color: #fff !important;
+    }
+  }
+}
+.el-loading-mask {
+  left: 30px;
+}
+.view-container{
+  overflow: auto;
+}
+.el-overlay-dialog,.el-overlay{
+  z-index: 99999!important;
+}
