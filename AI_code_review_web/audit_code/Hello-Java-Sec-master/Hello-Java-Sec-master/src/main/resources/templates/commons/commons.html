@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- head公共模块 -->
+<head th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Java Sec">
+    <meta name="author" content="nul1">
+
+    <title>Java 漏洞平台</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/codemirror.css}">
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <link rel="stylesheet" th:href="@{/css/linearicons.css}">
+    <link rel="stylesheet" th:href="@{/css/mdn-like.css}">
+    <!--
+                      ...
+                    ;::::;
+                  ;::::; :;
+                ;:::::'   :;
+               ;:::::;     ;.
+              ,:::::'       ;           OOO\
+              ::::::;       ;          OOOOO\
+              ;:::::;       ;         OOOOOOOO
+             ,;::::::;     ;'         / OOOOOOO
+           ;:::::::::`. ,,,;.        /  / DOOOOOO
+         .';:::::::::::::::::;,     /  /     DOOOO
+        ,::::::;::::::;;;;::::;,   /  /        DOOO
+       ;`::::::`'::::::;;;::::: ,#/  /          DOOO
+       :`:::::::`;::::::;;::: ;::#  /            DOOO
+       ::`:::::::`;:::::::: ;::::# /              DOO
+       `:`:::::::`;:::::: ;::::::#/               DOO
+        :::`:::::::`;; ;:::::::::##                OO
+        ::::`:::::::`;::::::::;:::#                OO
+        `:::::`::::::::::::;'`:;::#                O
+         `:::::`::::::::;' /  / `:#
+          ::::::`:::::;'  /  /   `#
+
+    -->
+</head>
+
+<nav class="navbar navbar-dark sticky-top p-0" th:fragment="topbar">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/index}"><i class="lnr lnr-home"></i> Java Security</a>
+
+    <ul class="navbar-nav px-3">
+        <li class="nav-item">
+            <!-- todo -->
+            <a class="btn btn-sm btn-default" style="color:white" target="_blank"
+               href="https://github.com/Tencent/secguide/blob/main/Java%E5%AE%89%E5%85%A8%E6%8C%87%E5%8D%97.md">安全编码指南</a>
+            <a class="btn btn-sm btn-default" style="color:white" target="_blank"
+               href="https://github.com/j3ers3/Hello-Java-Sec">Github</a>
+            <a th:if="${session.LoginUser} == null" class="btn btn-sm btn-default" style="color:white"
+               th:href="@{/login}"> 登录</a>
+            <a th:if="${session.LoginUser} != null" class="btn btn-sm btn-default" style="color:white"
+               th:text="${session.LoginUser}"></a>
+            <a th:if="${session.LoginUser} != null" class="btn btn-sm btn-default" style="color:white"
+               th:href="@{/user/logout}">注销</a>
+        </li>
+    </ul>
+</nav>
+
+<nav class="col-md-2 bg-dark sidebar" th:fragment="siderbar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column flex-sm-column">
+
+            <li class="nav-item">
+                <a href="#sql_submenu"
+                   th:class="${((active=='sqli_jdbc.html') || (active=='sqli_mybatis.html')) ? 'nav-link active':'nav-link'}"
+                   data-toggle="collapse">
+                    <i class="lnr lnr-code"></i><span>SQL注入</span><i
+                        class="icon-submenu lnr lnr-chevron-left"></i></a>
+                <div id="sql_submenu"
+                     th:class="${((active=='sqli_jdbc.html') || (active=='sqli_mybatis.html')) ? 'collapsed':'collapse'}">
+                    <ul class="nav flex-column">
+                        <li>
+                            <a th:class="${active=='sqli_jdbc.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/sqli/jdbc}">
+                                <i class="lnr lnr-bug"></i><span>JDBC</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='sqli_mybatis.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/sqli/mybatis}">
+                                <i class="lnr lnr-bug"></i><span>MyBatis</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="#file_submenu"
+                   th:class="${((active=='upload.html') || (active=='traversal.html')) ? 'nav-link active':'nav-link'}"
+                   data-toggle="collapse">
+                    <i class="lnr lnr-layers"></i><span>任意文件操作</span><i
+                        class="icon-submenu lnr lnr-chevron-left"></i></a>
+                <div id="file_submenu"
+                     th:class="${((active=='upload.html') || (active=='traversal.html')) ? 'collapsed':'collapse'}">
+                    <ul class="nav flex-column">
+                        <li>
+                            <a th:class="${active=='upload.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/upload}">
+                                <i class="lnr lnr-bug"></i><span>文件上传</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='traversal.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/traversal}">
+                                <i class="lnr lnr-bug"></i><span>目录遍历</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="#auth_submenu" data-toggle="collapse"
+                   th:class="${(active=='captcha_vul.html' || active=='jwt.html')?'nav-link active':'nav-link'}"><i
+                        class="lnr lnr-diamond"></i>
+                    <span>失效的身份认证</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                <div id="auth_submenu"
+                     th:class="${(active=='captcha_vul.html' || active=='jwt.html') ? 'collapsed':'collapse'}">
+                    <ul class="nav flex-column">
+                        <li>
+                            <a th:class="${active=='jwt.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/jwt}">
+                                <i class="lnr lnr-bug"></i><span>JWT弱加密</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='captcha_vul.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/captcha}"><i
+                                    class="lnr lnr-bug"></i><span>验证码复用</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="#xss_submenu"
+                   th:class="${((active=='xss_store.html') || (active=='xss_reflect.html')) ? 'nav-link active':'nav-link'}"
+                   data-toggle="collapse">
+                    <i class="lnr lnr-cross"></i><span>跨站脚本</span><i
+                        class="icon-submenu lnr lnr-chevron-left"></i></a>
+                <div id="xss_submenu"
+                     th:class="${((active=='xss_reflect.html') || (active=='xss_store.html')) ? 'collapsed':'collapse'}">
+                    <ul class="nav flex-column">
+                        <li>
+                            <a th:class="${active=='xss_reflect.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/xss}">
+                                <i class="lnr lnr-bug"></i><span>反射型</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='xss_store.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/xss/store}">
+                                <i class="lnr lnr-bug"></i><span>存储型</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${(active=='ssrf.html') ? 'nav-link active':'nav-link'}" th:href="@{/index/ssrf}">
+                    <i class="lnr lnr-rocket"></i><span>SSRF</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${(active=='rce.html') ? 'nav-link active':'nav-link'}" th:href="@{/index/rce}">
+                    <i class="lnr lnr-star"></i><span>远程代码执行</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${(active=='deserialize.html') ? 'nav-link active':'nav-link'}"
+                   th:href="@{/index/deserialize}">
+                    <i class="lnr lnr-lock"></i><span>反序列化漏洞</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${active=='spel.html' ? 'nav-link active':'nav-link'}" th:href="@{/index/spel}">
+                    <i class="lnr lnr-poop"></i><span>表达式注入</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <a th:class="${active=='xxe.html' ? 'nav-link active':'nav-link'}" th:href="@{/index/xxe}">
+                    <i class="lnr lnr-book"></i><span>XML外部实体</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${active=='idor.html' ? 'nav-link active':'nav-link'}"
+                   th:href="@{/index/idor}">
+                    <i class="lnr lnr-screen"></i><span>越权访问</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${active=='unauth.html' ? 'nav-link active':'nav-link'}"
+                   th:href="@{/index/unauth}">
+                    <i class="lnr lnr-leaf"></i><span>接口未授权访问</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${active=='ssti.html' ? 'nav-link active':'nav-link'}" th:href="@{/index/ssti}">
+                    <i class="lnr lnr-cloud"></i><span>SSTI模版注入</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a th:class="${active=='jndi.html' ? 'nav-link active':'nav-link'}"
+                   th:href="@{/index/jndi}">
+                    <i class="lnr lnr-magic-wand"></i><span>JNDI注入</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#middle_submenu" data-toggle="collapse"
+                   th:class="${(active=='xstream.html' || active=='shiro.html' || active=='fastjson.html' || active=='log4j.html' || active=='jackson.html') ? 'nav-link active':'nav-link'}"><i
+                        class="lnr lnr-drop"></i>
+                    <span>组件漏洞</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+
+                <div id="middle_submenu"
+                     th:class="${(active=='xstream.html' || active=='shiro.html' || active=='fastjson.html' || active=='log4j.html' || active=='jackson.html') ? 'collapsed':'collapse'}">
+                    <ul class="nav flex-column">
+                        <li>
+                            <a th:class="${active=='xstream.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/xstream}">
+                                <i class="lnr lnr-bug"></i><span>XStream</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='fastjson.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/fastjson}">
+                                <i class="lnr lnr-bug"></i><span>Fastjson</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='jackson.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/jackson}">
+                                <i class="lnr lnr-bug"></i><span>Jackson</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='log4j.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/log4j}">
+                                <i class="lnr lnr-bug"></i><span>Log4j2</span></a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='shiro.html' ? 'nav-link active':'nav-link'}"
+                               href="#">
+                                <i class="lnr lnr-bug"></i><span>Shiro</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="#other_submenu" data-toggle="collapse"
+                   th:class="${(active=='actuator.html' || active=='redirect.html' || active=='xff.html' || active=='dos.html' || active=='cors.html' || active=='swagger.html' || active=='xpath.html' || active=='csrf.html' || active=='csv_injection.html') ? 'nav-link active':'nav-link'}"><i
+                        class="lnr lnr-location"></i>
+                    <span>其他漏洞</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                <div id="other_submenu"
+                     th:class="${(active=='actuator.html' || active=='redirect.html' || active=='xff.html' || active=='dos.html' || active=='cors.html' || active=='swagger.html' || active=='xpath.html' || active=='csrf.html' || active=='csv_injection.html') ? 'collapsed':'collapse'}">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a th:class="${active=='redirect.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/redirect}">
+                                <i class="lnr lnr-bug"></i><span>开放重定向</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:class="${active=='actuator.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/actuator}">
+                                <i class="lnr lnr-bug"></i><span>Actuator</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='xff.html' ? 'nav-link active':'nav-link'}" th:href="@{/index/xff}">
+                                <i class="lnr lnr-bug"></i><span>IP地址伪造</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='swagger.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/swagger}">
+                                <i class="lnr lnr-bug"></i><span>Swagger未授权</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:class="${active=='cors.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/cors}">
+                                <i class="lnr lnr-bug"></i><span>CORS</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a th:class="${active=='dos.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/dos}"><i
+                                    class="lnr lnr-bug"></i><span>DoS攻击</span></a>
+                        </li>
+
+                        <li>
+                            <a th:class="${active=='xpath.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/xpath}"><i
+                                    class="lnr lnr-bug"></i><span>XPath注入</span></a>
+                        </li>
+
+                        <li>
+                            <a th:class="${active=='csv_injection.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/csv}"><i
+                                    class="lnr lnr-bug"></i><span>CSV注入</span></a>
+                        </li>
+
+                        <li>
+                            <a th:class="${active=='csrf.html' ? 'nav-link active':'nav-link'}"
+                               th:href="@{/index/csrf}"><i
+                                    class="lnr lnr-bug"></i><span>CSRF</span></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+
+<div th:fragment="script">
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap-4.6.0.min.js}"></script>
+    <script th:src="@{/js/codemirror.js}"></script>
+    <script th:src="@{/js/groovy.js}"></script>
+</div>
+
+<div th:fragment="codemirror">
+    <script>
+        const editorConfig = {
+            mode: "groovy",
+            indentUnit: 4,
+            indentWithTabs: true,
+            lineNumbers: true,
+            theme: "mdn-like"
+        };
+
+        function createEditor(id) {
+            const editor = CodeMirror.fromTextArea(document.getElementById(id), editorConfig);
+            $("#" + id).text(editor.getValue());
+            editor.setSize('', '450px');
+        }
+
+        createEditor("code1");
+        createEditor("code2");
+        createEditor("code3");
+        createEditor("code4");
+        createEditor("code5");
+        createEditor("code6");
+        createEditor("code7");
+    </script>
+</div>
+
+</html>

@@ -1,0 +1,64 @@
+.body-signin {
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.form-signin {
+    width: 100%;
+    padding: 45px;
+    margin-top: 100px;
+    box-shadow: 0 0 15px 12px #ececec;
+    border-radius: 20px;
+}
+
+.form-signin .form-group i {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 17px;
+    color: #c8c8c8;
+    transition: all 0.5s ease 0s;
+}
+
+.form-signin .checkbox {
+    font-weight: 400;
+    text-align: left;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 14px;
+}
+
+
+.form-signin input[type="username"] {
+    margin-bottom: -1px;
+    border-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 15px;
+}
+
+
+.form-signin img {
+    width: 48px;
+    height: 44px;
+}
+
+.form-signin p {
+    color: red;
+}
+

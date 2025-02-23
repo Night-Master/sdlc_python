@@ -1,0 +1,12 @@
+# config.yaml
+max_threads: 1
+ai_platforms:
+  - name: deepseek
+    endpoint: "https://api.deepseek.com/chat/completions"
+    model: "deepseek-v3"
+    api_key: "sk-xxxx"
+
+  - name: tongyi_qianwen
+    endpoint: "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+    model: "deepseek-v3"
+    api_key: "sk-xxxx"

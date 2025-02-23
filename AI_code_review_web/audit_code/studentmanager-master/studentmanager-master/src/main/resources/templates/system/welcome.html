@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+<div th:fragment="welcome">
+	<div title="欢迎使用" style="padding:20px;overflow:hidden; color:red; ">
+		<p style="font-size: 50px; line-height: 60px; height: 60px;" th:if="${session.usertype == '1'}" th:text="${session.admin.username}"></p>
+		<p style="font-size: 50px; line-height: 60px; height: 60px;" th:if="${session.usertype == '2'}" th:text="${session.student.username}"></p>
+		<p style="font-size: 50px; line-height: 60px; height: 60px;" th:if="${session.usertype == '3'}" th:text="${session.teacher.username}"></p>
+		<p style="font-size: 25px; line-height: 30px; height: 30px;">欢迎使用学生成绩管理系统</p>
+		<p>开发人员：wdd</p>
+
+		<hr />
+		<h2>系统环境</h2>
+		<p>系统环境：Windows</p>
+		<p>开发工具：IDEA</p>
+		<p>Java版本：JDK 1.8</p>
+		<p>服务器：tomcat 7.0</p>
+		<p>数据库：MySQL 5.5</p>
+		<p>系统采用技术： springboot + mybatis + maven</p>
+	</div>
+</div>
+</body>
+</html>

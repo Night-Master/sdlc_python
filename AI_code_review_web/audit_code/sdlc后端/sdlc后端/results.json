@@ -1,0 +1,76 @@
+{
+	"Golang errors": {},
+	"Issues": [
+		{
+			"severity": "MEDIUM",
+			"confidence": "LOW",
+			"cwe": {
+				"id": "79",
+				"url": "https://cwe.mitre.org/data/definitions/79.html"
+			},
+			"rule_id": "G203",
+			"details": "The used method does not auto-escape HTML. This can potentially lead to 'Cross-site Scripting' vulnerabilities, in case the attacker controls the input.",
+			"file": "D:\\sec tool\\go_sdlc\\backend\\vulnerabilities\\xss.go",
+			"code": "30: \t}{\n31: \t\tEscapedInput: template.HTML(input), // 注意：这里直接使用输入，存在XSS风险\n32: \t\tRawInput:     input,\n",
+			"line": "31",
+			"column": "17",
+			"nosec": false,
+			"suppressions": null
+		},
+		{
+			"severity": "MEDIUM",
+			"confidence": "HIGH",
+			"cwe": {
+				"id": "89",
+				"url": "https://cwe.mitre.org/data/definitions/89.html"
+			},
+			"rule_id": "G201",
+			"details": "SQL string formatting",
+			"file": "D:\\sec tool\\go_sdlc\\backend\\vulnerabilities\\sql_injection.go",
+			"code": "24: \n25: \tquery := fmt.Sprintf(\"SELECT * FROM users WHERE username='%s' AND password='%s'\", username, password)\n26: \tlog.Println(\"query:\", query)\n",
+			"line": "25",
+			"column": "11",
+			"nosec": false,
+			"suppressions": null
+		},
+		{
+			"severity": "LOW",
+			"confidence": "HIGH",
+			"cwe": {
+				"id": "703",
+				"url": "https://cwe.mitre.org/data/definitions/703.html"
+			},
+			"rule_id": "G104",
+			"details": "Errors unhandled.",
+			"file": "D:\\sec tool\\go_sdlc\\backend\\vulnerabilities\\xss.go",
+			"code": "35: \tc.Header(\"Content-Type\", \"text/html; charset=utf-8\")\n36: \tt.Execute(c.Writer, data)\n37: }\n",
+			"line": "36",
+			"column": "2",
+			"nosec": false,
+			"suppressions": null
+		},
+		{
+			"severity": "LOW",
+			"confidence": "HIGH",
+			"cwe": {
+				"id": "703",
+				"url": "https://cwe.mitre.org/data/definitions/703.html"
+			},
+			"rule_id": "G104",
+			"details": "Errors unhandled.",
+			"file": "D:\\sec tool\\go_sdlc\\backend\\main.go",
+			"code": "14: \troutes.SetupRoutes(router)\n15: \trouter.Run(\":80\")\n16: }\n",
+			"line": "15",
+			"column": "2",
+			"nosec": false,
+			"suppressions": null
+		}
+	],
+	"Stats": {
+		"files": 5,
+		"lines": 221,
+		"nosec": 0,
+		"found": 4
+	},
+	"GosecVersion": "2.20.0"
+}
